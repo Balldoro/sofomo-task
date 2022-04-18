@@ -27,7 +27,7 @@ export const SearchedLocation = () => {
   }
 
   return (
-    <Box w="100%">
+    <Box as="section" w="100%">
       {locationData && (
         <Stack
           direction={{ base: "column", lg: "row" }}

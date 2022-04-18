@@ -47,7 +47,7 @@ export const CurrentLocation = () => {
   }
 
   return (
-    <Box w="100%">
+    <Box as="section" w="100%">
       {userInfo && (
         <Stack
           direction={{ base: "column", lg: "row" }}

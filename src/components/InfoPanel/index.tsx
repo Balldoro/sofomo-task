@@ -24,7 +24,13 @@ export const InfoPanel = ({
   ];
 
   return (
-    <Box w="100%" h="100%" borderColor="gray.200" borderWidth="1px" p="6">
+    <Box
+      as="section"
+      w="100%"
+      h="100%"
+      borderColor="gray.200"
+      borderWidth="1px"
+      p="6">
       <Heading as="h2" fontSize={{ base: "lg", sm: "xl", lg: "2xl" }}>
         {title}
       </Heading>

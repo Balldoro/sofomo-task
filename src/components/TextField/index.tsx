@@ -16,7 +16,7 @@ export const TextField = ({ error, label, ...props }: TextFieldProps) => {
   return (
     <FormControl isInvalid={Boolean(error)}>
       <FormLabel fontSize={{ base: "sm", md: "md" }}>{label}</FormLabel>
-      <Input {...props} />
+      <Input type="text" {...props} />
       {error ? (
         <FormErrorMessage role="alert">{error}</FormErrorMessage>
       ) : (
