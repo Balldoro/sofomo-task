@@ -1,34 +1,14 @@
 import { Box, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 
-import { getUserIpAddress } from "api";
-import { IpInfo } from "types";
 import { CurrentLocationMap } from "features/CurrentLocationMap";
 import { Loader } from "components/Loader";
 import { ErrorText } from "components/ErrorText/ErrorText";
 import { InfoPanel } from "components/InfoPanel";
 import { CenteredFlexWrapper } from "components/CenteredFlexWrapper";
+import { useCurrentLocation } from "./useCurrentLocation";
 
 export const CurrentLocation = () => {
-  const [userInfo, setUserInfo] = useState<IpInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const fetchUserIP = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getUserIpAddress();
-        setUserInfo(data);
-        setIsError(false);
-      } catch (err) {
-        setIsError(true);
-      }
-      setIsLoading(false);
-    };
-
-    fetchUserIP();
-  }, []);
+  const { userInfo, isLoading, isError } = useCurrentLocation();
 
   if (isLoading) {
     return (
