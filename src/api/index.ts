@@ -12,7 +12,7 @@ import { isEmptyResponse } from "utils/isEmptyResponse";
 export const getUserIpAddress = async () => {
   const { data } = await axiosIpStack.get<IpInfoApiResponse>(`/check`);
 
-  if (isApiError(data)) {
+  if (isApiError(data) || isEmptyResponse(data)) {
     throw new Error(GENERAL_API_ERROR_MESSAGE);
   }
 
