@@ -3,13 +3,12 @@ import { useEffect, useRef } from "react";
 import { Marker } from "react-map-gl";
 
 import { MapBase } from "components/MapBase";
+import { INITIAL_MAP_ZOOM } from "constants/index";
 
 interface SearchedLocationMapProps {
   longitude: number;
   latitude: number;
 }
-
-const INITIAL_ZOOM = 10;
 
 export const SearchedLocationMap = ({
   longitude,
@@ -26,7 +25,7 @@ export const SearchedLocationMap = ({
   return (
     <Box w="100%" h="400px" borderWidth="1px" borderColor="gray.200">
       <MapBase
-        initialViewState={{ longitude, latitude, zoom: INITIAL_ZOOM }}
+        initialViewState={{ longitude, latitude, zoom: INITIAL_MAP_ZOOM }}
         ref={mapRef}>
         <Marker longitude={longitude} latitude={latitude} />
       </MapBase>
