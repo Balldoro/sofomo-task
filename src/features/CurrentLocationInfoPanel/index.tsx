@@ -1,4 +1,5 @@
-import { Box, Divider, Flex, Heading, List, ListItem } from "@chakra-ui/react";
+import { Box, Divider, Heading } from "@chakra-ui/react";
+import { InfoList } from "components/InfoList";
 
 import { IpInfo } from "types";
 
@@ -26,16 +27,7 @@ export const CurrentLocationInfoPanel = ({
         Current location information
       </Heading>
       <Divider my="4" />
-      <List spacing="3">
-        {items.map(({ label, value }) => (
-          <Flex justify="space-between" key={label}>
-            <ListItem fontWeight="semibold" fontSize={{ base: "sm", md: "md" }}>
-              {label}
-            </ListItem>
-            <ListItem fontSize={{ base: "sm", md: "md" }}>{value}</ListItem>
-          </Flex>
-        ))}
-      </List>
+      <InfoList items={items} />
     </Box>
   );
 };
