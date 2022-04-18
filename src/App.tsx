@@ -4,6 +4,7 @@ import { AppProviders } from "components/AppProviders";
 import { SearchBox } from "features/SearchBox";
 import { CurrentLocation } from "features/CurrentLocation";
 import SearchContextProvider from "contexts/SearchContext";
+import { SearchedLocation } from "features/SearchedLocation";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <CurrentLocation />
           <SearchContextProvider>
             <SearchBox />
+            <SearchedLocation />
           </SearchContextProvider>
         </VStack>
       </Container>
