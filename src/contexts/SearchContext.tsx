@@ -1,14 +1,18 @@
+import { createContext, useContext, useState } from "react";
+
 import { getLookupIpAddress } from "api";
 import { handleIpSearchError } from "features/SearchBox/utils";
-import { createContext, useContext, useState } from "react";
 import { IpInfo } from "types";
+import { getItemFromSs, setItemToSs } from "utils/ssStorage";
 
 interface State {
   searchValue: string;
   locationData: IpInfo | null;
   isLoading: boolean;
   error: string | null;
+  allResults: { value: string }[];
   searchForResults: () => Promise<void>;
+  searchFromHistory: (value: string) => Promise<void>;
   updateSearchValue: (value: string) => void;
 }
 
@@ -24,6 +28,10 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [allResults, setAllResults] = useState<{ value: string }[]>(
+    () => getItemFromSs("search-history") || []
+  );
+
   const updateSearchValue = (value: string) => {
     setSearchValue(value);
   };
@@ -31,7 +39,24 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
   const searchForResults = async () => {
     try {
       setIsLoading(true);
+      const newItem = { value: searchValue };
+      setAllResults((results) => [...results, newItem]);
+      setItemToSs("search-history", [...allResults, newItem]);
       const data = await getLookupIpAddress(searchValue);
+      setLocationData(data);
+      setError(null);
+    } catch (err: any) {
+      const errorMessage = handleIpSearchError(err);
+      setError(errorMessage);
+    }
+    setIsLoading(false);
+  };
+
+  const searchFromHistory = async (value: string) => {
+    try {
+      updateSearchValue(value);
+      setIsLoading(true);
+      const data = await getLookupIpAddress(value);
       setLocationData(data);
       setError(null);
     } catch (err: any) {
@@ -45,10 +70,12 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
     <SearchContext.Provider
       value={{
         searchValue,
+        allResults,
         locationData,
         isLoading,
         error,
         searchForResults,
+        searchFromHistory,
         updateSearchValue,
       }}>
       {children}
