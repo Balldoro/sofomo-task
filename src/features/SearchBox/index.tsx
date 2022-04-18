@@ -1,16 +1,9 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  HStack,
-  Input,
-} from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { getLookupIpAddress } from "api";
 import { handleIpSearchError } from "./utils";
+import { TextField } from "components/TextField";
 
 export const SearchBox = () => {
   const [value, setValue] = useState("");
@@ -35,18 +28,16 @@ export const SearchBox = () => {
   return (
     <form onSubmit={handleSubmit} style={{ width: "100%" }}>
       <HStack w="100%">
-        <FormControl isInvalid={Boolean(error)}>
-          <FormLabel>Search IP/URL</FormLabel>
-          <Input value={value} onChange={(e) => setValue(e.target.value)} />
-          {error ? (
-            <FormErrorMessage role="alert">{error}</FormErrorMessage>
-          ) : (
-            <Box>&nbsp;</Box>
-          )}
-        </FormControl>
+        <TextField
+          label="Search IP/URL"
+          error={error}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
         <Button
           type="submit"
-          minW="120px"
+          minW={{ sm: "120px" }}
+          fontSize={{ base: "sm", sm: "md" }}
           isLoading={isLoading}
           isDisabled={disabledSubmit}
           disabled={disabledSubmit}>
