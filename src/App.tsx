@@ -1,13 +1,17 @@
-import { Container } from "@chakra-ui/react";
+import { Container, VStack } from "@chakra-ui/react";
 
 import { AppProviders } from "components/AppProviders";
+import { SearchBox } from "features/SearchBox";
 import { CurrentLocation } from "features/CurrentLocation";
 
 const App = () => {
   return (
     <AppProviders>
       <Container maxW="container.xl">
-        <CurrentLocation />
+        <VStack spacing="4">
+          <CurrentLocation />
+          <SearchBox />
+        </VStack>
       </Container>
     </AppProviders>
   );
