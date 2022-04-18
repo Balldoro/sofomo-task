@@ -10,7 +10,7 @@ export const ErrorText = ({
   ...props
 }: ErrorTextProps) => {
   const InfoText = (
-    <Text color="red.500" {...props}>
+    <Text color="red.500" role="alert" {...props}>
       {children}
     </Text>
   );

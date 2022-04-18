@@ -10,7 +10,7 @@ import { SearchHistory } from "features/SearchHistory";
 const App = () => {
   return (
     <AppProviders>
-      <Container maxW="container.xl" minH="100vh" h="1px" py="6">
+      <Container as="main" maxW="container.xl" minH="100vh" h="1px" py="6">
         <Stack
           direction={{ base: "column", lg: "row" }}
           h="100%"
