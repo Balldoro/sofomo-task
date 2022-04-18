@@ -41,25 +41,8 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
     setSearchValue(value);
   };
 
-  const searchForResults = async () => {
+  const fetchAddressByIp = async (value: string) => {
     try {
-      setIsLoading(true);
-      const newItem = { value: searchValue };
-      setAllResults((results) => [...results, newItem]);
-      setItemToSs(SEARCH_HISTORY_SS_NAME, [...allResults, newItem]);
-      const data = await getLookupIpAddress(searchValue);
-      setLocationData(data);
-      setError(null);
-    } catch (err: any) {
-      const errorMessage = handleIpSearchError(err);
-      setError(errorMessage);
-    }
-    setIsLoading(false);
-  };
-
-  const searchFromHistory = async (value: string) => {
-    try {
-      updateSearchValue(value);
       setIsLoading(true);
       const data = await getLookupIpAddress(value);
       setLocationData(data);
@@ -69,6 +52,22 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
       setError(errorMessage);
     }
     setIsLoading(false);
+  };
+
+  const saveSearchToHistory = (value: string) => {
+    const newItem = { value };
+    setAllResults((results) => [...results, newItem]);
+    setItemToSs(SEARCH_HISTORY_SS_NAME, [...allResults, newItem]);
+  };
+
+  const searchForResults = async () => {
+    saveSearchToHistory(searchValue);
+    await fetchAddressByIp(searchValue);
+  };
+
+  const searchFromHistory = async (value: string) => {
+    updateSearchValue(value);
+    await fetchAddressByIp(value);
   };
 
   return (
