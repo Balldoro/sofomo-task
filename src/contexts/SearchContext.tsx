@@ -4,13 +4,18 @@ import { getLookupIpAddress } from "api";
 import { handleIpSearchError } from "features/SearchBox/utils";
 import { IpInfo } from "types";
 import { getItemFromSs, setItemToSs } from "utils/ssStorage";
+import { SEARCH_HISTORY_SS_NAME } from "constants/index";
+
+interface HistoryItem {
+  value: string;
+}
 
 interface State {
   searchValue: string;
   locationData: IpInfo | null;
   isLoading: boolean;
   error: string | null;
-  allResults: { value: string }[];
+  allResults: HistoryItem[];
   searchForResults: () => Promise<void>;
   searchFromHistory: (value: string) => Promise<void>;
   updateSearchValue: (value: string) => void;
@@ -28,8 +33,8 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [allResults, setAllResults] = useState<{ value: string }[]>(
-    () => getItemFromSs("search-history") || []
+  const [allResults, setAllResults] = useState<HistoryItem[]>(
+    () => getItemFromSs(SEARCH_HISTORY_SS_NAME) || []
   );
 
   const updateSearchValue = (value: string) => {
@@ -41,7 +46,7 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
       setIsLoading(true);
       const newItem = { value: searchValue };
       setAllResults((results) => [...results, newItem]);
-      setItemToSs("search-history", [...allResults, newItem]);
+      setItemToSs(SEARCH_HISTORY_SS_NAME, [...allResults, newItem]);
       const data = await getLookupIpAddress(searchValue);
       setLocationData(data);
       setError(null);
