@@ -21,7 +21,7 @@ export const SearchedLocation = () => {
   if (Boolean(error)) {
     return (
       <CenteredFlexWrapper>
-        <ErrorText>There was an error</ErrorText>
+        <ErrorText>{error}</ErrorText>
       </CenteredFlexWrapper>
     );
   }

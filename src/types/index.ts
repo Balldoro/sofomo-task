@@ -22,4 +22,11 @@ export interface IpStackErrorResponse {
   };
 }
 
-export type IpInfoApiResponse = IpInfo | IpStackErrorResponse;
+export interface IpStackNotFoundResponse {
+  detail: string;
+}
+
+export type IpInfoApiResponse =
+  | IpInfo
+  | IpStackErrorResponse
+  | IpStackNotFoundResponse;
