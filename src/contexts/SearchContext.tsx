@@ -15,7 +15,7 @@ interface State {
   locationData: IpInfo | null;
   isLoading: boolean;
   error: string | null;
-  allResults: HistoryItem[];
+  historyResults: HistoryItem[];
   searchForResults: () => Promise<void>;
   searchFromHistory: (value: string) => Promise<void>;
   updateSearchValue: (value: string) => void;
@@ -33,7 +33,7 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [allResults, setAllResults] = useState<HistoryItem[]>(
+  const [historyResults, setHistoryResults] = useState<HistoryItem[]>(
     () => getItemFromSs(SEARCH_HISTORY_SS_NAME) || []
   );
 
@@ -56,8 +56,8 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
 
   const saveSearchToHistory = (value: string) => {
     const newItem = { value };
-    setAllResults((results) => [...results, newItem]);
-    setItemToSs(SEARCH_HISTORY_SS_NAME, [...allResults, newItem]);
+    setHistoryResults((results) => [...results, newItem]);
+    setItemToSs(SEARCH_HISTORY_SS_NAME, [...historyResults, newItem]);
   };
 
   const searchForResults = async () => {
@@ -74,7 +74,7 @@ const SearchContextProvider = ({ children }: SearchContextProviderProps) => {
     <SearchContext.Provider
       value={{
         searchValue,
-        allResults,
+        historyResults,
         locationData,
         isLoading,
         error,
