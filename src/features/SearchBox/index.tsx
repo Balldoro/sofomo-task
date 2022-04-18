@@ -7,13 +7,15 @@ import {
   HStack,
   Input,
 } from "@chakra-ui/react";
-import { getLookupIpAddress } from "api";
 import { useState } from "react";
+
+import { getLookupIpAddress } from "api";
+import { handleIpSearchError } from "./utils";
 
 export const SearchBox = () => {
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const disabledSubmit = isLoading || !value.trim();
 
@@ -22,9 +24,10 @@ export const SearchBox = () => {
     try {
       setIsLoading(true);
       await getLookupIpAddress(value);
-      setIsError(false);
-    } catch (err) {
-      setIsError(true);
+      setError(null);
+    } catch (err: any) {
+      const errorMessage = handleIpSearchError(err);
+      setError(errorMessage);
     }
     setIsLoading(false);
   };
@@ -32,14 +35,13 @@ export const SearchBox = () => {
   return (
     <form onSubmit={handleSubmit} style={{ width: "100%" }}>
       <HStack w="100%">
-        <FormControl isInvalid={isError}>
+        <FormControl isInvalid={Boolean(error)}>
           <FormLabel>Search IP/URL</FormLabel>
           <Input value={value} onChange={(e) => setValue(e.target.value)} />
-          {!isError && <Box>&nbsp;</Box>}
-          {isError && (
-            <FormErrorMessage role="alert">
-              Incorrect value. Please provide IP address or URL
-            </FormErrorMessage>
+          {error ? (
+            <FormErrorMessage role="alert">{error}</FormErrorMessage>
+          ) : (
+            <Box>&nbsp;</Box>
           )}
         </FormControl>
         <Button
