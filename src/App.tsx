@@ -1,13 +1,13 @@
 import { Container } from "@chakra-ui/react";
 
 import { AppProviders } from "components/AppProviders";
-import { CurrentLocationMap } from "features/CurrentLocationMap";
+import { CurrentLocation } from "features/CurrentLocation";
 
 const App = () => {
   return (
     <AppProviders>
       <Container maxW="container.xl">
-        <CurrentLocationMap />
+        <CurrentLocation />
       </Container>
     </AppProviders>
   );
