@@ -1,10 +1,12 @@
-import { Box, Center, CircularProgress, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Marker } from "react-map-gl";
 
 import { getUserIpAddress } from "api";
-import { MapBase } from "components/MapBase";
 import { IpInfo } from "types";
+import { MapBase } from "components/MapBase";
+import { Loader } from "components/Loader";
+import { ErrorText } from "components/ErrorText/ErrorText";
 
 export const CurrentLocationMap = () => {
   const [userInfo, setUserInfo] = useState<IpInfo | null>(null);
@@ -29,28 +31,17 @@ export const CurrentLocationMap = () => {
 
   const { latitude, longitude } = userInfo || {};
 
-  if (isLoading) {
-    return (
-      <Center h="400px" mt="4" borderWidth="1px" borderColor="gray.300">
-        <CircularProgress isIndeterminate thickness="3px" color="purple" />
-      </Center>
-    );
-  }
-
-  if (isError) {
-    return (
-      <Center h="400px" mt="4" borderWidth="1px" borderColor="gray.300">
-        <Text>There was some error</Text>
-      </Center>
-    );
-  }
-
   return (
-    <Box w="100%" mt="4" borderWidth="1px" borderColor="gray.300">
+    <Box w="100%" h="400px" mt="4" borderWidth="1px" borderColor="gray.300">
+      {isLoading ? (
+        <Loader isCentered />
+      ) : (
+        isError && <ErrorText isCentered>There was some error</ErrorText>
+      )}
       {latitude && longitude && (
         <MapBase
           initialViewState={{ longitude, latitude, zoom: 9 }}
-          style={{ height: "400px", width: "100%" }}>
+          style={{ height: "100%" }}>
           <Marker longitude={longitude} latitude={latitude} />
         </MapBase>
       )}
