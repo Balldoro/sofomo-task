@@ -4,3 +4,5 @@ export const INVALID_IP_ERROR_MESSAGE = "Invalid IP address";
 export const NO_RESULTS_ERROR_MESSAGE = "No results found";
 
 export const INITIAL_MAP_ZOOM = 10;
+
+export const SEARCH_HISTORY_SS_NAME = "search-history";
