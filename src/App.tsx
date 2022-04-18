@@ -3,6 +3,7 @@ import { Container, VStack } from "@chakra-ui/react";
 import { AppProviders } from "components/AppProviders";
 import { SearchBox } from "features/SearchBox";
 import { CurrentLocation } from "features/CurrentLocation";
+import SearchContextProvider from "contexts/SearchContext";
 
 const App = () => {
   return (
@@ -10,7 +11,9 @@ const App = () => {
       <Container maxW="container.xl">
         <VStack spacing="4">
           <CurrentLocation />
-          <SearchBox />
+          <SearchContextProvider>
+            <SearchBox />
+          </SearchContextProvider>
         </VStack>
       </Container>
     </AppProviders>
