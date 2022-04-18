@@ -1,28 +1,17 @@
 import { Button, HStack } from "@chakra-ui/react";
-import { useState } from "react";
 
-import { getLookupIpAddress } from "api";
-import { handleIpSearchError } from "./utils";
 import { TextField } from "components/TextField";
+import { useSearchContext } from "contexts/SearchContext";
 
 export const SearchBox = () => {
-  const [value, setValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { searchValue, isLoading, error, updateSearchValue, searchForResults } =
+    useSearchContext();
 
-  const disabledSubmit = isLoading || !value.trim();
+  const disabledSubmit = isLoading || !searchValue.trim();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      await getLookupIpAddress(value);
-      setError(null);
-    } catch (err: any) {
-      const errorMessage = handleIpSearchError(err);
-      setError(errorMessage);
-    }
-    setIsLoading(false);
+    await searchForResults();
   };
 
   return (
@@ -31,8 +20,8 @@ export const SearchBox = () => {
         <TextField
           label="Search IP/URL"
           error={error}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={searchValue}
+          onChange={(e) => updateSearchValue(e.target.value)}
         />
         <Button
           type="submit"
