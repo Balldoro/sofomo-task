@@ -1,14 +1,14 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 
 import { AppProviders } from "components/AppProviders";
+import { CurrentLocationMap } from "features/CurrentLocationMap";
 
 const App = () => {
   return (
     <AppProviders>
-      <Flex justify="space-between">
-        <Text>Hello App!</Text>
-        <Text>Hello App!</Text>
-      </Flex>
+      <Container maxW="container.xl">
+        <CurrentLocationMap />
+      </Container>
     </AppProviders>
   );
 };
