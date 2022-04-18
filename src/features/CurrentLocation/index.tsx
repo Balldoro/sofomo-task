@@ -1,27 +1,13 @@
-import { Box, Flex, Stack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Stack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 import { getUserIpAddress } from "api";
 import { IpInfo } from "types";
 import { CurrentLocationMap } from "features/CurrentLocationMap";
-import { CurrentLocationInfoPanel } from "features/CurrentLocationInfoPanel";
 import { Loader } from "components/Loader";
 import { ErrorText } from "components/ErrorText/ErrorText";
-
-const CenteredWrapper = ({ children }: { children: React.ReactNode }) => (
-  <Flex
-    w="100%"
-    minH="100px"
-    mt="4"
-    justify="center"
-    align="center"
-    direction="column"
-    borderColor="gray.200"
-    borderWidth="1px"
-    p="6">
-    {children}
-  </Flex>
-);
+import { InfoPanel } from "components/InfoPanel";
+import { CenteredFlexWrapper } from "components/CenteredFlexWrapper";
 
 export const CurrentLocation = () => {
   const [userInfo, setUserInfo] = useState<IpInfo | null>(null);
@@ -46,22 +32,22 @@ export const CurrentLocation = () => {
 
   if (isLoading) {
     return (
-      <CenteredWrapper>
+      <CenteredFlexWrapper>
         <Loader />
-      </CenteredWrapper>
+      </CenteredFlexWrapper>
     );
   }
 
   if (isError) {
     return (
-      <CenteredWrapper>
+      <CenteredFlexWrapper>
         <ErrorText>There was an error</ErrorText>
-      </CenteredWrapper>
+      </CenteredFlexWrapper>
     );
   }
 
   return (
-    <Box>
+    <Box w="100%">
       {userInfo && (
         <Stack
           direction={{ base: "column", lg: "row" }}
@@ -76,7 +62,10 @@ export const CurrentLocation = () => {
             />
           </Box>
           <Box flexBasis="40%">
-            <CurrentLocationInfoPanel locationData={userInfo} />
+            <InfoPanel
+              locationData={userInfo}
+              title="Current location information"
+            />
           </Box>
         </Stack>
       )}
