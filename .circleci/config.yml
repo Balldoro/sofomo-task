@@ -1,0 +1,84 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0
+
+executors:
+  node:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:14.18
+
+commands:
+  restorecache:
+    description: "Loads npm package cache"
+    steps:
+      - restore_cache:
+          keys:
+            - node-v3-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - node-v3-{{ .Branch }}-
+            - node-v3-
+
+  savecache:
+    description: "Saves npm packages to cache"
+    steps:
+      - save_cache:
+          key: node-v3-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+
+jobs:
+  checkout_code:
+    executor: node
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - repo
+
+  build:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restorecache
+      - run:
+          name: Set env variables
+          command: |
+            echo REACT_APP_MAPBOX_API_KEY=${REACT_APP_MAPBOX_API_KEY} >> .env
+            echo REACT_APP_IPSTACK_KEY=${REACT_APP_IPSTACK_KEY} >> .env
+      - run: npm ci
+      - run: npm run build
+      - savecache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - repo/node_modules
+            - repo/build
+            - .cache
+
+  deploy:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Deploy to Netlify
+          command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build -m \"$(git log -1 --pretty=%B)\"
+
+workflows:
+  version: 2.1
+  build-and-test:
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
