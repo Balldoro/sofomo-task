@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import { SearchedLocationMap } from "features/SearchedLocationMap";
 import { useSearchContext } from "contexts/SearchContext";
@@ -6,6 +6,7 @@ import { Loader } from "components/Loader";
 import { ErrorText } from "components/ErrorText/ErrorText";
 import { InfoPanel } from "components/InfoPanel";
 import { CenteredFlexWrapper } from "components/CenteredFlexWrapper";
+import { StackContainer } from "components/StackContainer";
 
 export const SearchedLocation = () => {
   const { locationData, isLoading, error } = useSearchContext();
@@ -29,12 +30,7 @@ export const SearchedLocation = () => {
   return (
     <Box as="section" w="100%">
       {locationData && (
-        <Stack
-          direction={{ base: "column", lg: "row" }}
-          spacing="8"
-          align="stretch"
-          justify="space-between"
-          w="100%">
+        <StackContainer>
           <Box flexBasis="60%">
             <SearchedLocationMap
               longitude={locationData.longitude}
@@ -47,7 +43,7 @@ export const SearchedLocation = () => {
               title="Searched location information"
             />
           </Box>
-        </Stack>
+        </StackContainer>
       )}
     </Box>
   );

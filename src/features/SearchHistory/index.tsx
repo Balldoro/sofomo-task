@@ -14,7 +14,7 @@ export const SearchHistory = () => {
       borderColor="gray.200"
       borderWidth="1px"
       p="6">
-      <Heading as="h2" fontSize={{ base: "lg", sm: "xl", lg: "2xl" }}>
+      <Heading as="h2" variant="title">
         History
       </Heading>
       <Divider mt="4" />

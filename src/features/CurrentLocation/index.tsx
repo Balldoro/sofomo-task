@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import { CurrentLocationMap } from "features/CurrentLocationMap";
 import { Loader } from "components/Loader";
@@ -6,6 +6,7 @@ import { ErrorText } from "components/ErrorText/ErrorText";
 import { InfoPanel } from "components/InfoPanel";
 import { CenteredFlexWrapper } from "components/CenteredFlexWrapper";
 import { useCurrentLocation } from "./useCurrentLocation";
+import { StackContainer } from "components/StackContainer";
 
 export const CurrentLocation = () => {
   const { userInfo, isLoading, isError } = useCurrentLocation();
@@ -29,12 +30,7 @@ export const CurrentLocation = () => {
   return (
     <Box as="section" w="100%">
       {userInfo && (
-        <Stack
-          direction={{ base: "column", lg: "row" }}
-          spacing="8"
-          align="stretch"
-          justify="space-between"
-          mt="4">
+        <StackContainer>
           <Box flexBasis="60%">
             <CurrentLocationMap
               longitude={userInfo.longitude}
@@ -47,7 +43,7 @@ export const CurrentLocation = () => {
               title="Current location information"
             />
           </Box>
-        </Stack>
+        </StackContainer>
       )}
     </Box>
   );
