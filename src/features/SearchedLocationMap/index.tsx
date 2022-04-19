@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { Marker } from "react-map-gl";
+import { MapRef, Marker } from "react-map-gl";
 
 import { MapBase } from "components/MapBase";
 import { INITIAL_MAP_ZOOM } from "constants/index";
@@ -14,7 +14,7 @@ export const SearchedLocationMap = ({
   longitude,
   latitude,
 }: SearchedLocationMapProps) => {
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<MapRef>(null);
 
   useEffect(() => {
     if (mapRef.current) {
