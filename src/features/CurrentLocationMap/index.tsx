@@ -15,12 +15,10 @@ export const CurrentLocationMap = ({
 }: CurrentLocationMapProps) => {
   return (
     <Box w="100%" h="400px" borderWidth="1px" borderColor="gray.200">
-      {longitude && latitude && (
-        <MapBase
-          initialViewState={{ longitude, latitude, zoom: INITIAL_MAP_ZOOM }}>
-          <Marker longitude={longitude} latitude={latitude} />
-        </MapBase>
-      )}
+      <MapBase
+        initialViewState={{ longitude, latitude, zoom: INITIAL_MAP_ZOOM }}>
+        <Marker longitude={longitude} latitude={latitude} />
+      </MapBase>
     </Box>
   );
 };
