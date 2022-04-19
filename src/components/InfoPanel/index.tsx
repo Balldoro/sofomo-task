@@ -31,7 +31,7 @@ export const InfoPanel = ({
       borderColor="gray.200"
       borderWidth="1px"
       p="6">
-      <Heading as="h2" fontSize={{ base: "lg", sm: "xl", lg: "2xl" }}>
+      <Heading as="h2" variant="title">
         {title}
       </Heading>
       <Divider my="4" />
