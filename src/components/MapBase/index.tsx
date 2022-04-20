@@ -4,6 +4,7 @@ import Map, { MapProps, MapRef } from "react-map-gl";
 export const MapBase = forwardRef(
   ({ children, ...props }: MapProps, ref: ForwardedRef<MapRef>) => {
     return (
+      /* NEEDED TO TS IGNORE AS MapProps TYPE IS INCOMPATIBILE */
       /* @ts-ignore */
       <Map
         ref={ref}
